@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Le Maroc Enchanté – Hamid Dehbani Experiences (prototype)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Nunito+Sans:wght@400;600;700&display=swap">
+<!--
+  PROTOTYPE POUR DÉVELOPPEUR
+  - Toutes les données d'expériences sont dans l'objet JS EXPS (plus bas). Chaque valeur inventée est à remplacer.
+  - Le bouton « Mode développeur » (en bas à droite) surligne dans la page chaque contenu fictif avec une note.
+  - Les photos sont des fonds dégradés : voir TODO-PHOTO.
+  - Marque : le logo reçu dit « Le Maroc Enchanté », le projet « Hamid Dehbani Experiences » : TODO-MARQUE à trancher.
+-->
+<style>
+:root{--bg:#f6eedd;--bg2:#eadcc0;--ink:#3a2a1e;--mute:#6f5a49;--ocre:#a8581e;--sky:#1f4e6b;--palm:#4f6b3a;--card:#fffaf0;--line:#d9c7a4}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#1d1510;--bg2:#2a1f17;--ink:#f1e6d2;--mute:#bba68c;--ocre:#e08a4a;--sky:#7fb4d4;--palm:#9bbd7c;--card:#261c15;--line:#46372b}}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*:before,*:after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Nunito Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.1;margin:0 0 .5em}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:16px;padding-top:8px;padding-bottom:8px}
+header img{height:52px;width:52px;border-radius:50%;object-fit:cover}
+header nav{margin-left:auto;display:flex;gap:18px;align-items:center;font-weight:600}
+header nav a{text-decoration:none}
+.btn{display:inline-block;background:var(--ocre);color:#fff;border:0;padding:12px 22px;border-radius:999px;font:700 16px "Nunito Sans",sans-serif;text-decoration:none;cursor:pointer}
+.btn.alt{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+.btn.wa{background:#1f7a4d}
+:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+/* photo placeholder */
+.photo{position:relative;border-radius:14px;overflow:hidden;min-height:180px;background:linear-gradient(var(--a) 0 52%,var(--b) 52% 100%)}
+.photo:before{content:"";position:absolute;width:90px;height:90px;border-radius:50%;background:radial-gradient(#fff6c8,#f7c35a 60%,transparent 62%);left:68%;top:14%}
+.photo:after{content:"";position:absolute;left:-10%;right:-10%;bottom:-30%;height:60%;border-radius:50%;background:var(--c)}
+.photo small{position:absolute;left:10px;bottom:8px;z-index:2;background:rgba(0,0,0,.55);color:#fff;font-size:12px;padding:2px 8px;border-radius:6px}
+.photo{background-size:cover;background-position:center;transition:background-image .3s}.photo small{opacity:.85}.photo.has:before,.photo.has:after{display:none}
+/* hero */
+.hero{padding:56px 0 40px;background:linear-gradient(var(--bg2),var(--bg))}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:36px;align-items:center}
+.hero h1{font-size:clamp(2.2rem,5vw,3.8rem)}
+.hero p{max-width:46ch;color:var(--mute)}
+.hero .photo{min-height:360px}
+.search{display:flex;flex-wrap:wrap;gap:10px;background:var(--card);border:1px solid var(--line);padding:12px;border-radius:16px;margin-top:22px}
+.search select{flex:1 1 140px;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+section.block{padding:44px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;text-decoration:none;display:block}
+.card .photo{border-radius:0;min-height:200px}
+.card .body{padding:16px 18px 20px}
+.card h3{font-size:1.35rem}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--mute);font-size:15px;margin:0 0 10px}
+.price{font-weight:700;color:var(--ocre)}
+.band{background:var(--sky);color:#fff;padding:34px 0}
+.band .wrap{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between}
+.band div{flex:1 1 200px}
+.band b{display:block;font-family:Fraunces,serif;font-size:1.2rem}
+/* detail */
+.dhead{padding:28px 0 8px}
+.dhead h1{font-size:clamp(2rem,4.5vw,3.2rem)}
+.gal{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:170px 170px;gap:10px}
+.gal .photo:first-child{grid-row:span 2}
+.gal .photo{min-height:0}
+.layout{display:grid;grid-template-columns:1fr 340px;gap:40px;padding:30px 0 50px;align-items:start}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0 28px}
+.facts div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.facts span{display:block;color:var(--mute);font-size:14px}
+.facts b{font-size:1.05rem}
+.atouts{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 24px;padding:0;list-style:none}
+.atouts li{border:1px solid var(--palm);color:var(--palm);border-radius:999px;padding:4px 14px;font-weight:600;font-size:15px}
+.step{display:grid;grid-template-columns:70px 1fr;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.step time{font-weight:700;color:var(--ocre)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.two ul{padding-left:20px;margin:0}
+.book{position:sticky;top:calc(80px + env(safe-area-inset-top,0px));background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+.book label{display:block;font-weight:600;font-size:15px;margin:12px 0 4px}
+.book input{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+.book .total{font:700 1.7rem Fraunces,serif;margin:14px 0 4px}
+.book .btn{width:100%;text-align:center;margin-top:10px}
+.sig{margin-top:30px;background:var(--bg2);border-radius:16px;padding:20px;border-left:6px solid var(--ocre)}
+footer{background:var(--ink);color:var(--bg);padding:36px 0 90px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between}
+footer a{display:block;text-decoration:none;margin:4px 0}
+footer img{height:70px;border-radius:50%}
+/* dev mode */
+#devbtn{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:50;background:#222;color:#fff;border:0;border-radius:999px;padding:10px 16px;font:700 14px sans-serif;cursor:pointer}
+.dev .ph{outline:2px dashed #e0245e;outline-offset:2px;position:relative;background:rgba(224,36,94,.12)}
+.dev .ph:hover:after{content:"À REMPLACER : " attr(data-dev);position:absolute;left:0;top:100%;z-index:60;background:#e0245e;color:#fff;font:600 12px/1.3 sans-serif;padding:5px 8px;border-radius:6px;width:max-content;max-width:260px;pointer-events:none}
+@media(max-width:820px){.hero .wrap,.layout,.two{grid-template-columns:1fr}.book{position:static}.gal{grid-template-columns:1fr 1fr;grid-template-rows:200px 120px}.gal .photo:first-child{grid-column:span 2;grid-row:auto}header nav a.hide{display:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a href="#" aria-label="Accueil"><img src="data:image/jpeg;base64,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" alt="Logo Le Maroc Enchanté"><!-- TODO-LOGO : remplacer par le logo HD (SVG/PNG transparent) --></a>
+  <nav><a class="hide" href="#experiences">Expériences</a><a class="hide" href="#apropos">À propos</a><a class="hide" href="#contact">Contact</a>
+  <!-- TODO-LANGUES : ajouter le sélecteur FR / EN / AR (AR en lecture droite-gauche) -->
+  <a class="btn wa" href="https://wa.me/212661206041" target="_blank" rel="noopener">WhatsApp</a></nav>
+</div></header>
+<main id="app"></main>
+<footer id="contact"><div class="wrap">
+  <div><img src="data:image/jpeg;base64,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" alt="Logo"><p>Le Maroc Enchanté<br>par Hamid Dehbani Experiences<br><!-- TODO-MARQUE --></p></div>
+  <div><b>Contact</b><a href="tel:+212661206041">0661 206 041</a><a href="mailto:h.dehbani75@gmail.com">h.dehbani75@gmail.com</a></div>
+  <div><b>Suivez-nous</b><a href="https://www.instagram.com/hamiddehbaniexperiences/" target="_blank" rel="noopener">Instagram</a><a href="https://web.facebook.com/hamid.dehbani/" target="_blank" rel="noopener">Facebook</a></div>
+  <div><b>Infos</b><a href="#">Conditions d’annulation</a><a href="#">Mentions légales</a><a href="#">Confidentialité</a><!-- TODO-LEGAL : fournir les textes légaux, la licence/agrément touristique et l'assurance --></div>
+</div></footer>
+<button id="devbtn" type="button">Mode développeur : off</button>
+<script>
+/* DONNÉES : les faits sur les lieux viennent de sources publiques (UNESCO, Wikivoyage, offres d'agences). Les PRIX, HORAIRES, INCLUS sont des repères de marché à remplacer par vos vraies offres (voir « Mode développeur »). */
+var EXPS={
+ aitbenhaddou:{t:"Aït Benhaddou, le ksar rouge",reg:"Province de Ouarzazate, vallée de l’Ounila",tag:"Le plus célèbre des ksour de la vallée de l’Ounila, classé UNESCO depuis 1987.",
+  geo:[31.047,-7.129],q:"Aït Benhaddou ksar",
+  imgs:[["Kasbahs_in_A%C3%AFt_Benhaddou.JPG","Donar Reiskoffer – CC BY-SA 3.0 – Wikimedia Commons"],["A%C3%AFtBenhaddou_Morocco_2.jpg","Cliff Williams – Wikimedia Commons"],["Ait_benhaddou_from_above.JPG","Donar Reiskoffer – Wikimedia Commons"]],wp:[["en.wikipedia.org","Ait_Benhaddou"]],
+  dur:"1 jour (11 à 12 h, trajets inclus)",price:1900,lvl:"Facile",start:"Marrakech, vers 7h00, prise en charge à l’hôtel",trans:"4×4 ou minibus climatisé par le col du Tizi n’Tichka",season:"Toute l’année, évitez midi en été",grp:"8 personnes max.",
+  atouts:["Patrimoine mondial UNESCO","Paysages spectaculaires","Architecture traditionnelle","Expérience authentique"],
+  story:"Aït Benhaddou est un ksar : un village fortifié de terre, bâti sur la pente d’une colline au bord de l’oued Ounila, sur l’ancienne route caravanière entre le Sahara et Marrakech. Il est encore habité, et il a servi de décor à Lawrence d’Arabie et à Game of Thrones. On y vient tôt le matin ou en fin d’après-midi, quand la lumière est douce et la foule absente.",
+  prog:[["07:00","Départ de Marrakech, route vers le Haut Atlas"],["09:30","Pause panoramique au col du Tizi n’Tichka"],["11:00","Visite guidée du ksar, de la mosquée à la place publique"],["13:00","Déjeuner face au ksar"],["15:00","Option : kasbah de Taourirt et studios de cinéma à Ouarzazate"],["19:00","Retour à Marrakech"]],
+  acts:["Visite guidée du ksar","Montée au grenier sommital","Balade dans le lit de l’oued","Photo en lumière dorée"],
+  inc:["Guide","Transport aller-retour","Entrée du ksar","Eau"],exc:["Déjeuner","Musée du cinéma et kasbah de Taourirt","Pourboires"],bring:["Chaussures confortables","Chapeau, eau, crème solaire","Appareil photo"],
+  src:[["UNESCO – Ksar d’Aït-Ben-Haddou","https://whc.unesco.org/document/216759"]],
+  cols:["#6fa8d6","#c8743a","#8a3f1d"],sig:"Destination pour ceux qui cherchent la vraie beauté, là où l’histoire rencontre le désert."},
+ tamraqesh:{t:"Tamraqesh, entre montagne et oasis",reg:"Sud-est du Maroc",tag:"Là où la majesté des montagnes rencontre le charme de l’oasis.",
+  geo:null,q:"palmeraie oasis Maroc sud",wp:[["en.wikipedia.org","Todra_Gorge"],["en.wikipedia.org","Draa_River"],["en.wikipedia.org","Ziz_River"]],unverified:true,
+  dur:"2 jours, 1 nuit",price:1450,lvl:"Facile à moyen",start:"Marrakech ou Ouarzazate, 8h00",trans:"4×4 et minibus",season:"Octobre à avril",grp:"6 personnes max.",
+  atouts:["Nature envoûtante","Vues sur les montagnes","Oasis et palmiers","Calme loin des villes"],
+  story:"Ici, on ne fait pas que passer. Une route paisible traverse les falaises rocheuses, les palmiers donnent leur ombre, et la nuit se passe chez l’habitant. Texte tiré de votre annonce.",
+  prog:[["08:00","Départ et route panoramique à travers les montagnes"],["12:30","Déjeuner au bord de la palmeraie"],["15:00","Randonnée douce dans l’oasis"],["19:30","Dîner et nuit chez l’habitant"],["Jour 2","Lever de soleil, petit-déjeuner, retour"]],
+  acts:["Randonnée en oasis","Nuit chez l’habitant","Soirée musique locale","Visite d’un village"],
+  inc:["Guide","Transport 4×4","Hébergement 1 nuit","Tous les repas"],exc:["Boissons","Pourboires","Assurance voyage"],bring:["Veste chaude pour le soir","Lampe frontale","Crème solaire"],
+  src:[],cols:["#5b8db3","#b9803d","#4f6b3a"],sig:"Découvrez la beauté du Maroc profond, là où la nature crée les plus beaux souvenirs."},
+ agafay:{t:"Nuit sous les étoiles à Agafay",reg:"À 30–40 km au sud-ouest de Marrakech",tag:"Un désert de pierre face à l’Atlas, à moins d’une heure de Marrakech.",
+  geo:[31.45,-8.2],q:"Agafay desert",imgs:[["https://unsplash.com/photos/jMb3w4jsorA/download?w=1200","Chloé Chavanon – Unsplash"]],wp:[["en.wikivoyage.org","Agafay_Desert"]],
+  dur:"Soirée et nuit",price:980,lvl:"Facile, tout public",start:"Marrakech, 16h00",trans:"Véhicule privé, 40 à 50 minutes de route",season:"Toute l’année, nuits fraîches en hiver",grp:"12 personnes max.",
+  atouts:["Désert de pierre","Dîner marocain","Tente de bivouac","Ciel étoilé"],
+  story:"Agafay n’est pas le Sahara : c’est un reg, un plateau rocheux de 300 à 400 km² où les collines blanches font face aux sommets du Haut Atlas. On y vient pour le silence, le coucher du soleil et la nuit étoilée, sans les dix heures de route vers les grandes dunes.",
+  prog:[["16:00","Départ de Marrakech, passage près du lac de Lalla Takerkoust"],["17:30","Balade à dromadaire au coucher du soleil"],["20:00","Dîner marocain et musique autour du feu"],["Nuit","Bivouac sous tente"],["08:00","Petit-déjeuner puis retour"]],
+  acts:["Balade à dromadaire","Dîner marocain","Observation des étoiles","Quad (en option)"],
+  inc:["Transfert","Dîner et petit-déjeuner","Tente avec literie"],exc:["Boissons","Quad","Pourboires"],bring:["Vêtement chaud pour la nuit","Chaussures fermées"],
+  src:[["Wikivoyage – Agafay Desert","https://en.wikivoyage.org/wiki/Agafay_Desert"],["Nomado – Agafay Desert","https://www.nomadotravel.app/en/attractions/agafay-desert"]],
+  cols:["#2c4a6e","#d79a55","#a8581e"],sig:"Une nuit simple et précieuse, à portée de Marrakech."}
+};
+var $=function(s){return document.querySelector(s)},app=$("#app");
+function ph(txt,note){return '<span class="ph" data-dev="'+note+'">'+txt+'</span>'}
+function photo(e,label,k,i){var c=e.cols;return '<div class="photo" data-k="'+(k||"")+'" data-i="'+(i||0)+'" style="--a:'+c[0]+';--b:'+c[1]+';--c:'+c[2]+'" role="img" aria-label="'+e.t+'"><small>'+label+'</small></div>'}
+var IMG={};
+function strip(s){var d=document.createElement("div");d.innerHTML=s||"";return (d.textContent||"").trim().slice(0,60)}
+function FP(f){return "https://commons.wikimedia.org/wiki/Special:FilePath/"+f+"?width=1200"}
+function getImgs(k){if(IMG[k])return IMG[k];var e=EXPS[k];
+ var fixed=(e.imgs||[]).map(function(a){return{u:/^http/.test(a[0])?a[0]:FP(a[0]),c:a[1]}});
+ var wiki=(e.wp||[]).map(function(w){return fetch("https://"+w[0]+"/api/rest_v1/page/media-list/"+w[1]).then(function(r){return r.json()}).then(function(d){return (d.items||[]).filter(function(it){return it.type==="image"&&/\.jpe?g$/i.test(it.title||"")}).map(function(it){var f=(it.title||"").replace(/^File:/,"").replace(/ /g,"_");return{u:FP(encodeURIComponent(f)),c:"Wikimedia Commons – "+decodeURIComponent(f).slice(0,50)}})}).catch(function(){return[]})});
+ var u="https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit=15&gsrsearch="+encodeURIComponent(e.q+" filetype:bitmap")+"&prop=imageinfo&iiprop=url|size|extmetadata&iiurlwidth=1200";
+ var com=fetch(u).then(function(r){return r.json()}).then(function(d){var out=[];Object.keys((d.query||{}).pages||{}).forEach(function(id){var i=d.query.pages[id].imageinfo&&d.query.pages[id].imageinfo[0];if(!i||i.width<i.height||i.width<1000)return;var m=i.extmetadata||{},lic=(m.LicenseShortName||{}).value||"";if(!/^(CC|Public|PD)/i.test(lic))return;out.push({u:i.thumburl,c:strip((m.Artist||{}).value)+" – "+lic+" – Wikimedia Commons"})});return out}).catch(function(){return[]});
+ IMG[k]=Promise.all(wiki.concat([com])).then(function(parts){var seen={},all=fixed.concat([].concat.apply([],parts));return all.filter(function(p){if(seen[p.u])return false;seen[p.u]=1;return true})});return IMG[k]}
+function tryLoad(el,L,s,n){if(n>=L.length)return;var p=L[(s+n)%L.length],im=new Image();im.onload=function(){el.style.backgroundImage="url('"+p.u+"')";el.classList.add("has");el.querySelector("small").textContent="© "+p.c};im.onerror=function(){tryLoad(el,L,s,n+1)};im.src=p.u}
+function loadPhotos(){Array.prototype.forEach.call(document.querySelectorAll(".photo[data-k]"),function(el){var k=el.getAttribute("data-k");if(!k)return;getImgs(k).then(function(L){tryLoad(el,L,+el.getAttribute("data-i"),0)})})}
+/* PHOTOS : images libres de droits chargées depuis Wikimedia Commons avec crédit. Version finale : remplacer par les photos HD de Hamid (TODO-PHOTO). */
+function mad(n){return n.toLocaleString("fr-FR")+" MAD"}
+function card(k){var e=EXPS[k];return '<a class="card" href="#'+k+'">'+photo(e,"Chargement de la photo…",k,0)+'<div class="body"><h3>'+e.t+'</h3><p class="meta"><span>'+e.reg+'</span><span>'+ph(e.dur,"durée réelle")+'</span><span>'+e.lvl+'</span></p><p>'+e.tag+'</p><p class="price">À partir de '+ph(mad(e.price),"prix réel par personne")+'</p></div></a>'}
+function home(){
+ var ks=Object.keys(EXPS);
+ app.innerHTML='<section class="hero"><div class="wrap"><div><h1>Le Maroc que les brochures ne montrent pas</h1><p>Randonnées, bivouacs et villages d’exception, guidés par Hamid Dehbani. Choisissez un lieu, voyez le programme, réservez en quelques minutes.</p>'+
+ '<form class="search" onsubmit="return false"><select aria-label="Destination"><option>Toutes les destinations</option><option>Ouarzazate</option><option>Sud-est</option><option>Marrakech-Safi</option></select><select aria-label="Durée"><option>Toutes durées</option><option>1 jour</option><option>2 jours et +</option></select><a class="btn" href="#experiences">Voir les expériences</a></form><!-- TODO-DEV : brancher les filtres sur la liste --></div>'+
+ photo(EXPS.aitbenhaddou,"Chargement…","aitbenhaddou",1)+'</div></section>'+
+ '<section class="block" id="experiences"><div class="wrap"><h2>Nos expériences</h2><div class="grid">'+ks.map(card).join("")+'</div></div></section>'+
+ '<section class="band"><div class="wrap"><div><b>Un guide, une voix</b>Hamid vous répond lui-même sur WhatsApp.</div><div><b>Programmes clairs</b>Prix, durée, transport : tout est affiché.</div><div><b>Groupes réduits</b>Pour garder l’authenticité.</div><div><b>'+ph("4,9 sur 5","note moyenne réelle (avis clients)")+'</b>Avis voyageurs</div></div></section>'+
+ '<section class="block" id="apropos"><div class="wrap two"><div><h2>Hamid Dehbani</h2><p>'+ph("Guide passionné depuis plus de 10 ans, Hamid partage les lieux qu’il aime : villages cachés, oasis silencieuses, sommets et dunes.","biographie réelle de Hamid")+'</p><a class="btn alt" href="https://www.instagram.com/hamiddehbaniexperiences/" target="_blank" rel="noopener">Voir Instagram</a></div>'+photo({t:"Hamid",cols:["#9cc3df","#c99a62","#5d3a22"]},"Portrait de Hamid à fournir")+'</div></section>'}
+function detail(k){
+ var e=EXPS[k];
+ app.innerHTML='<div class="wrap"><div class="dhead"><a href="#experiences">Retour aux expériences</a><h1>'+e.t+'</h1><p class="meta">'+e.reg+' – '+e.tag+'</p></div>'+
+ '<div class="gal">'+[0,1,2].map(function(n){return photo(e,"Chargement…",k,n)}).join("")+'</div>'+
+ '<div class="layout"><div>'+
+ '<ul class="atouts">'+e.atouts.map(function(a){return '<li>'+a+'</li>'}).join("")+'</ul>'+
+ '<p>'+ph(e.story,"texte d’histoire réel")+'</p>'+
+ '<div class="facts"><div><span>Durée</span><b>'+ph(e.dur,"durée réelle")+'</b></div><div><span>Niveau</span><b>'+ph(e.lvl,"niveau réel")+'</b></div><div><span>Départ</span><b>'+ph(e.start,"point et heure de départ réels")+'</b></div><div><span>Transport</span><b>'+ph(e.trans,"moyen de transport réel")+'</b></div><div><span>Saison</span><b>'+ph(e.season,"saison conseillée")+'</b></div><div><span>Groupe</span><b>'+ph(e.grp,"taille max réelle")+'</b></div></div>'+
+ '<h2>Programme</h2>'+e.prog.map(function(p){return '<div class="step"><time>'+p[0]+'</time><span>'+ph(p[1],"étape et horaire réels")+'</span></div>'}).join("")+
+ '<h2 style="margin-top:30px">Activités proposées</h2><ul class="atouts">'+e.acts.map(function(a){return '<li>'+ph(a,"activité réelle")+'</li>'}).join("")+'</ul>'+
+ '<div class="two"><div><h3>Inclus</h3><ul>'+e.inc.map(function(a){return '<li>'+ph(a,"élément réellement inclus")+'</li>'}).join("")+'</ul></div><div><h3>Non inclus</h3><ul>'+e.exc.map(function(a){return '<li>'+a+'</li>'}).join("")+'</ul></div></div>'+
+ '<h3 style="margin-top:24px">À apporter</h3><p>'+e.bring.join(", ")+'.</p>'+
+ (e.geo?'<iframe title="Carte" style="width:100%;height:260px;border:0;border-radius:14px" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox='+(e.geo[1]-.06)+'%2C'+(e.geo[0]-.04)+'%2C'+(e.geo[1]+.06)+'%2C'+(e.geo[0]+.04)+'&amp;layer=mapnik&amp;marker='+e.geo[0]+'%2C'+e.geo[1]+'"></iframe>':'<p class="meta">Carte disponible dès que le lieu exact est confirmé.</p>')+(e.unverified?'<p class="meta"><b>Fiche à confirmer :</b> le lieu exact de l’annonce n’a pas pu être vérifié, les infos pratiques sont indicatives.</p>':'')+(e.src.length?'<p class="meta">Sources : '+e.src.map(function(s){return '<a href="'+s[1]+'" target="_blank" rel="noopener">'+s[0]+'</a>'}).join(", ")+'</p>':'')+
+ '<div class="sig"><b>'+e.reg+'</b><br>'+e.sig+'</div>'+
+ '<h2 style="margin-top:30px">Avis voyageurs</h2><p>'+ph("« Une journée inoubliable, Hamid connaît chaque pierre. » – Claire, France","avis clients réels (ou section masquée au lancement)")+'</p>'+
+ '<p class="meta">Annulation gratuite jusqu’à 48 h avant le départ. <!-- TODO-CONDITIONS : politique d’annulation réelle --></p></div>'+
+ '<aside class="book"><div class="price" style="font-size:1.4rem">'+ph(mad(e.price),"prix indicatif inspiré du marché (offres privées en ligne) : mettre VOTRE prix")+' <small style="font-weight:400;color:var(--mute)">par adulte</small></div>'+
+ '<label for="d">Date</label><input id="d" type="date"><label for="a">Adultes</label><input id="a" type="number" min="1" value="2"><label for="c">Enfants (moitié prix)</label><input id="c" type="number" min="0" value="0">'+
+ '<div class="total" id="tot"></div><small>Prix total estimé, à confirmer par Hamid.</small>'+
+ '<a class="btn" id="req" href="#" target="_blank" rel="noopener">Demander à réserver</a><a class="btn wa" id="wa" href="#" target="_blank" rel="noopener">Réserver via WhatsApp</a>'+
+ '<!-- TODO-DEV : brancher la demande sur le formulaire serveur (e-mail à Hamid + e-mail de confirmation) et, plus tard, le paiement en ligne et les disponibilités. Le prix enfant (50 %) est fictif. --></aside></div></div>';
+ function upd(){
+  var a=+$("#a").value||1,c=+$("#c").value||0,t=a*e.price+c*e.price*.5,d=$("#d").value||"à définir";
+  $("#tot").textContent=mad(t);
+  var m="Bonjour Hamid, je souhaite réserver « "+e.t+" » le "+d+" pour "+a+" adulte(s) et "+c+" enfant(s). Total estimé : "+mad(t)+".";
+  $("#wa").href="https://wa.me/212661206041?text="+encodeURIComponent(m);
+  $("#req").href="mailto:h.dehbani75@gmail.com?subject="+encodeURIComponent("Demande : "+e.t)+"&body="+encodeURIComponent(m);
+ }
+ ["d","a","c"].forEach(function(i){$("#"+i).addEventListener("input",upd)});upd();
+}
+function route(){var k=location.hash.slice(1);window.scrollTo(0,0);setTimeout(loadPhotos,0);
+ if(EXPS[k])detail(k);else{home();if(k==="experiences"||k==="apropos"){var el=document.getElementById(k);if(el)el.scrollIntoView()}}}
+window.addEventListener("hashchange",route);route();
+$("#devbtn").addEventListener("click",function(){var on=document.body.classList.toggle("dev");this.textContent="Mode développeur : "+(on?"on":"off")});
+</script>
+</body>
+</html>
